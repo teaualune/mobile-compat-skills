@@ -1,0 +1,12 @@
+{
+  "name": "iphone-duo-ui-fix",
+  "description": "Fix an existing iOS (SwiftUI/UIKit) or Flutter app's UI for iPhone Duo's inner and outer displays, driven by screenshots of broken screens: Xcode 27.1 gate, stack detection, fix proposals, gated plan, implementation, validation on a Duo or the Device Hub simulator.",
+  "version": "0.1.0",
+  "author": {
+    "name": "teaualune",
+    "email": "teaualune@gmail.com"
+  },
+  "repository": "https://github.com/teaualune/mobile-compat-skills",
+  "license": "WTFPL",
+  "keywords": ["ios", "flutter", "swiftui", "uikit", "iphone-duo", "foldable", "adaptive-layout"]
+}

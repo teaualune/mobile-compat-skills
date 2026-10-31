@@ -1,0 +1,17 @@
+{
+  "name": "mobile-compat",
+  "owner": {
+    "name": "teaualune",
+    "email": "teaualune@gmail.com"
+  },
+  "metadata": {
+    "description": "Targeted fixes that bring existing mobile apps in line with specific platform and device changes — one plugin per fix."
+  },
+  "plugins": [
+    {
+      "name": "iphone-duo-ui-fix",
+      "source": "./plugins/iphone-duo-ui-fix",
+      "description": "Fix an existing iOS (SwiftUI/UIKit) or Flutter app's UI for iPhone Duo's inner and outer displays, driven by screenshots of broken screens."
+    }
+  ]
+}

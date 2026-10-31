@@ -1,0 +1,22 @@
+# Optional manifest for the screenshots folder. Copy to <screenshots_root>/manifest.yaml.
+# Keys are paths relative to the screenshots root. Every field is optional.
+# Folders: outer/ (closed), inner/ (opened = inner landscape), inner_portrait/ (opened and rotated).
+#   screen: the code that renders this page (file path, type name, route, or deep link)
+#   hint:   how the caller wants it fixed. Leave blank to have the skill propose a fix.
+#
+# A sidecar file next to a screenshot works too: inner/home.md with free-text notes.
+
+inner/home.png:
+  screen: lib/pages/home_page.dart   # or Sources/Home/HomeView.swift, or route "/home"
+  hint: "Keep the hero banner full-bleed; the feature cards can stay phone-width and centered."
+
+inner/settings.png:
+  screen: SettingsViewController
+  hint: ""                          # no preference — propose something
+
+outer/checkout.png:
+  screen: lib/pages/checkout_page.dart
+  hint: "Pay button is cut off at the bottom on the outer screen."
+
+inner_portrait/player.png:
+  screen: PlayerView

@@ -1,0 +1,73 @@
+        DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+                    Version 2, December 2004
+
+ Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+ Copyright (C) 2026 teaualune <teaualune@gmail.com>
+
+ Everyone is permitted to copy and distribute verbatim or modified
+ copies of this license document, and changing it is allowed as long
+ as the name is changed.
+
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+  0. You just DO WHAT THE FUCK YOU WANT TO.
+
+------------------------------------------------------------------------
+
+                 TRADEMARK & THIRD-PARTY DISCLAIMERS
+       (informational notices — not part of the license above)
+
+"Claude", "Claude Code", and "Anthropic" are trademarks of Anthropic,
+PBC. This project is an independent, community-made bundle of skill
+files for use with Claude Code. It is not affiliated with, sponsored
+by, or endorsed by Anthropic. The license above applies only to the
+contents of this repository and grants no rights to the "Claude" or
+"Anthropic" names, trademarks, or products. References to Claude and
+Claude Code in this repository serve solely to identify the tool these
+skills are designed to run with.
+
+"Flutter" and "Dart" are trademarks of Google LLC. This project is not
+affiliated with, sponsored by, or endorsed by Google or the Flutter
+team, and the license above grants no rights to those names or
+trademarks.
+
+"Apple", "App Store Connect", "TestFlight", "Xcode", "iOS", and
+"Swift" are trademarks of Apple Inc. "Google Play", "Play Console",
+"Google Cloud", "Android", and "Chrome" are trademarks of Google LLC.
+The build and store-deploy skills in this repository invoke publicly
+documented first-party tooling — `xcodebuild`, the Xcode account
+session, and the Google Play Developer API — to upload artifacts the
+user has already built. This project is not affiliated with, sponsored
+by, or endorsed by Apple or Google; the license above grants no rights
+to those names, trademarks, or products, and those names appear solely
+to identify the platforms and interfaces the skills target. Use of
+those platforms remains governed by the user's own agreements with
+Apple and Google (e.g. the Apple Developer Program License Agreement
+and the Google Play Developer Distribution Agreement), including the
+terms covering API credentials and automated access.
+
+The Flutter/Dart packages and command-line tools referenced in this
+repository — including but not limited to Riverpod, go_router, Dio,
+freezed, json_serializable, build_runner, bloc/flutter_bloc, provider,
+GetX, MobX, auto_route, chopper, retrofit, get_it, fvm, xcpretty,
+bundletool, fastlane, curl, and OpenSSL, and others named in the skill
+files — are the property of their respective authors and are governed
+by their own licenses. This repository does not bundle or redistribute
+any of these packages or tools; their names appear solely to identify
+the technologies the generated code may target or that the scripts may
+invoke. No affiliation with or endorsement by any author is implied.
+
+NO WARRANTY / OPERATIONAL RISK. The material in this repository is
+provided "as is", without warranty of any kind. This matters most for
+the build and deploy skills, which do things that are not free to get
+wrong: they edit `pubspec.yaml`, run builds, read a Google Play
+service-account key from a path the user supplies, upload binaries to
+App Store Connect and to a Google Play testing track, and can drive a
+browser session that is already signed in to the user's Play Console.
+Store uploads are effectively permanent per build number and a Play
+rollout is a publish. Review what these skills are about to run before
+approving it, keep credentials outside the repository, and treat the
+resulting releases as your own — the authors accept no liability for
+any build, upload, release, credential exposure, or account
+consequence arising from their use.
