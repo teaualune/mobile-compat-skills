@@ -37,6 +37,24 @@ Mixing per screen is normal.
 | Lost scroll/form state across fold | treated as scene teardown | it is a trait change; keep state in the model; `stateRestorationActivity` only for real disconnects |
 | Margins differ after rebuilding with 27.1 | `UIView` default layout margins are now zero | `preservesSuperviewLayoutMargins = true` |
 
+Read the table backwards for a screen without a screenshot: the cause found in code predicts the symptom.
+
+## Layout patterns → mechanism
+What each pattern should look like, and its Duo rules, are in `layout-patterns.md`. Custom switches branch on the width the view gets (`ViewThatFits`, `onGeometryChange`, `GeometryReader`; UIKit: `view.bounds` in `viewWillLayoutSubviews`), not on size class alone — a Split View pane is regular at half width.
+
+| Pattern | SwiftUI | UIKit |
+|---|---|---|
+| `global-nav` | `TabView` (moves into the vertical bar; `.defaultTabBarPlacement(.sidebar)` for a sidebar) | `UITabBarController` (`sidebar.preferredPlacement`) |
+| `list-detail` | `NavigationSplitView` (collapses to a stack on the outer display); one selection state bound to both columns | `UISplitViewController` with a `.compact` column; `UIArrangementViewController` when the split should sit on the fold |
+| `cards-feed` | `LazyVGrid` with `GridItem(.adaptive(minimum:))`, or a column count from the width | `UICollectionViewCompositionalLayout`, columns from `layoutEnvironment.container.effectiveContentSize.width` |
+| `long-form` | `.frame(maxWidth:)` centered inside a full-width `ScrollView`; `NavigationSplitView` sidebar for a TOC, `.inspector` for side info | `readableContentGuide` |
+| `bottom-sheet` | `.popover(isPresented:attachmentAnchor:)` (falls back to a sheet on compact by itself); `.sheet` for dialogs; `presentationPlacement(_:)` to pick a side | `.popover` + `popoverPresentationController.sourceItem`; `.formSheet`; `preferredPlacement` |
+| `primary-cta` | `.safeAreaInset(edge: .bottom)` whose content switches by width: full-width bar vs fixed-width button aligned trailing | the same in the bottom safe-area container; constraints switched in `viewWillLayoutSubviews` |
+| `form` | `Form` with `LabeledContent` rows; at expanded, two `VStack`s of grouped sections | label/field `UIStackView` axis by width; two stacked columns at expanded |
+| `media` | `AnyLayout(HStackLayout())` ↔ `AnyLayout(VStackLayout())` — keeps the player's identity, so playback survives | one `AVPlayerViewController` child; re-pin its constraints, never recreate it |
+| `canvas-tools` | `.inspector(isPresented:)` (side column on regular, sheet on compact) | a child controller pinned to the side edge at expanded, the drawer below |
+| `flex-mode` | `GeometryReader` + `reservedRegions(kind: .division)`; `ArrangementView` | `UIView.reservedRegions(kind:)` in `layoutSubviews`; `UIArrangementViewController` |
+
 ## Project settings (go in the plan when present)
 - **Xcode 27.1**; the linked SDK decides the window (`scripts/check_app_sdk.sh` confirms a built `.app`).
 - `UIApplicationSceneManifest` (or `INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES`) must exist — iOS 27 SDK builds without the scene lifecycle fail to launch. AppDelegate-only `UIWindow` → `UIWindow(windowScene:)` in a `SceneDelegate`.

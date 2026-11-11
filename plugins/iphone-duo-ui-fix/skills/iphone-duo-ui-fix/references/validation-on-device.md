@@ -1,6 +1,6 @@
 # Validating on an iPhone Duo (Device Hub simulator or physical device)
 
-Read this in Phase 4 when the caller asked you to validate. Everything here runs on the Mac that has Xcode 27.1: directly when the session is on that Mac, or through the device-bridge shell when the session is in the cloud. If neither is available, hand the caller `assets/validation-checklist.md` instead.
+Read this in Phase 4 when the caller asked you to validate, or in Phase 2 when you capture screens that have no screenshot (sections 0–1 up to *A validation pass*; save into the same folder layout so they become that screen's "before"). Everything here runs on the Mac that has Xcode 27.1: directly when the session is on that Mac, or through the device-bridge shell when the session is in the cloud. If neither is available, hand the caller `assets/validation-checklist.md` instead.
 
 ## 0. Confirm the build is a 27.1-SDK build
 
@@ -58,7 +58,7 @@ Without `--display`, `simctl io booted screenshot` captures the inner display ev
 3. Closed pose → outer (466 × 678) → capture into `outer/`.
 4. With the screen still showing: close → open → close. Watch for a stale layout, a jumped scroll position, lost input, a dialog that got confined to half the screen.
 5. Partially Open (book, ~127°): is any primary control sitting in the crease band?
-6. Look at every capture with the Read tool and grade it against the checklist's definition of pass. Put the captures next to the originals and present them as before/after.
+6. Look at every capture with the Read tool and grade it against the checklist's definition of pass. Put the captures next to the originals and present them as before/after. A screen that had no screenshot has no "before": present its captures alone and say, per predicted defect, whether it was real and is fixed — and anything the prediction missed.
 
 ## 2. Physical iPhone Duo
 

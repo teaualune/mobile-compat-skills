@@ -1,7 +1,7 @@
 {
   "name": "iphone-duo-ui-fix",
-  "description": "Fix an existing iOS (SwiftUI/UIKit) or Flutter app's UI for iPhone Duo's inner and outer displays, driven by screenshots of broken screens: Xcode 27.1 gate, stack detection, fix proposals, gated plan, implementation, validation on a Duo or the Device Hub simulator.",
-  "version": "0.1.0",
+  "description": "Fix an existing iOS (SwiftUI/UIKit) or Flutter app's UI for iPhone Duo's inner and outer displays, from screenshots of broken screens or from code when a screen has none: Xcode 27.1 gate, stack detection, designer-backed fix proposals, gated plan, implementation, validation on a Duo or the Device Hub simulator.",
+  "version": "0.2.0",
   "author": {
     "name": "teaualune",
     "email": "teaualune@gmail.com"

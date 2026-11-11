@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 inventory_screenshots.py — list the iPhone Duo screenshots the skill caller provided,
-with any hints they attached, so Phase 1 starts from a table instead of a pile of PNGs.
+and the screens they listed without one, with any hints they attached, so Phase 2
+starts from a table instead of a pile of PNGs.
 
 Usage:
     python3 scripts/inventory_screenshots.py <screenshots_root> [--json out.json]
@@ -18,6 +19,11 @@ Hints (all optional, all merged, later wins):
     <root>/inner/home.md       sidecar: free-text hint for inner/home.png (also .txt)
     <root>/README.md           read by the caller of this script, not parsed here
 
+A manifest key without an image extension is a screen with no screenshot:
+    order-history: {"screen": "...", "like": "inner/home.png", "hint": "..."}
+    (like = a screen it is built like; optional)
+
+Exit: 0 table printed, 1 no screenshots and no screen-only entries, 2 usage error.
 Stdlib only; works with the python3 that ships with Xcode Command Line Tools.
 """
 import json
@@ -84,8 +90,11 @@ def load_simple_yaml(path):
             key, _, value = line.strip().partition(":")
             key = key.strip().strip('"').strip("'")
             value = value.strip()
-            if value.startswith(("'", '"')) and value.endswith(("'", '"')) and len(value) >= 2:
-                value = value[1:-1]
+            if value[:1] in ("'", '"'):
+                end = value.find(value[0], 1)
+                value = value[1:end] if end > 0 else value[1:]
+            else:
+                value = re.split(r"(?:^|\s)#", value, 1)[0].strip()  # inline comment
             if indent == 0:
                 current = key
                 data.setdefault(current, {})
@@ -188,19 +197,30 @@ def main(argv):
                 "hint": entry.get("hint", ""),
             })
 
-    # anything in the manifest that has no file
-    for key in manifest:
-        if not any(r["file"] == key for r in rows):
+    # manifest entries with no file: a missing image, or a screen listed without a screenshot
+    for key, entry in manifest.items():
+        if any(r["file"] == key for r in rows):
+            continue
+        if os.path.splitext(key)[1].lower() in IMAGE_EXT:
             rows.append({"file": key, "folder": key.split("/")[0], "pixels": "MISSING FILE",
-                         "check": "listed in manifest but not found", "screen": manifest[key].get("screen", ""),
-                         "hint": manifest[key].get("hint", "")})
+                         "check": "listed in manifest but not found", "screen": entry.get("screen", ""),
+                         "hint": entry.get("hint", "")})
+            continue
+        check = "no screenshot"
+        like = entry.get("like", "").replace("\\", "/").lstrip("./")
+        if like:
+            known = like in manifest or os.path.isfile(os.path.join(root, like))
+            check += " — like %s%s" % (like, "" if known else " (not found)")
+        rows.append({"file": key, "folder": "-", "pixels": "—", "check": check,
+                     "screen": entry.get("screen", ""), "hint": entry.get("hint", "")})
 
     if not rows:
-        print("No screenshots found under %s (expected outer/, inner/, inner_portrait/)." % root)
+        print("No screenshots or screen-only manifest entries under %s "
+              "(expected outer/, inner/, inner_portrait/ or manifest.yaml)." % root)
         return 1
 
-    print("| # | file | pixels | folder check | mapped screen/code | caller hint |")
-    print("|---|------|--------|--------------|--------------------|-------------|")
+    print("| # | screenshot or screen | pixels | check | mapped screen/code | caller hint |")
+    print("|---|----------------------|--------|-------|--------------------|-------------|")
     for i, r in enumerate(rows, 1):
         hint = r["hint"].replace("\n", " ").replace("|", "\\|")
         print("| %d | %s | %s | %s | %s | %s |" % (i, r["file"], r["pixels"], r["check"],
@@ -208,9 +228,11 @@ def main(argv):
                                                  hint or "_(none — propose a fix)_"))
     missing_screen = [r["file"] for r in rows if not r["screen"]]
     missing_hint = [r["file"] for r in rows if not r["hint"]]
+    no_shot = [r["file"] for r in rows if r["folder"] == "-"]
     print()
     print("screens still unmapped: %d/%d" % (len(missing_screen), len(rows)))
-    print("screenshots without caller hints: %d/%d" % (len(missing_hint), len(rows)))
+    print("rows without caller hints: %d/%d" % (len(missing_hint), len(rows)))
+    print("screens without a screenshot: %d/%d" % (len(no_shot), len(rows)))
 
     if out_json:
         with open(out_json, "w", encoding="utf-8") as f:

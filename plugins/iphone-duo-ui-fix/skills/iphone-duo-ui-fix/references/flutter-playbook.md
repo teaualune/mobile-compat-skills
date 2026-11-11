@@ -30,8 +30,25 @@ Mixing per screen is normal.
 | App rotates when unfolded, or is pillarboxed with black bars | Portrait-only: without `UIRequiresFullScreen` iOS rotates it; with it, iOS letterboxes | Support all orientations (drop `setPreferredOrientations`), lay out by width, remove the key |
 | Dialog/sheet confined to half the screen | a package injected a `fold` with `postureHalfOpened` → `DisplayFeatureSubScreen` | keep the bridge at `none`/`cutoutsOnly`, or pass `anchorPoint` |
 | Content under the vertical bar | body not in `SafeArea`; symmetric padding from one side | `SafeArea` around the body; `MediaQuery.paddingOf` per side |
+| Text, icons and spacing oversized (or squashed vertically) on the inner display | `flutter_screenutil` `.w`/`.h`/`.sp`/`.r` scale by the window against a phone `designSize` | stop scaling past compact width — a `designSize` per width class in `ScreenUtilInit`, `minTextAdapt` for text; check the outer display too |
 
-"Width" always means the width the widget is given (`LayoutBuilder`) or the window (`MediaQuery.sizeOf`), never `View.of(context).display.size` and never a literal.
+"Width" always means the width the widget is given (`LayoutBuilder`) or the window (`MediaQuery.sizeOf`), never `View.of(context).display.size` and never a literal. Read the table backwards for a screen without a screenshot: the cause found in code predicts the symptom.
+
+## Layout patterns → mechanism
+What each pattern should look like, and its Duo rules, are in `layout-patterns.md`. Branch with `LayoutBuilder` / `MediaQuery.sizeOf` at the Material widths above (`DuoLayout.isWide` is the medium test).
+
+| Pattern | Mechanism |
+|---|---|
+| `global-nav` | `NavigationBar` below medium → leading `NavigationRail` from medium (`extended: true` or `NavigationDrawer` at expanded); one selected-index state for both. `unfold`'s `AdaptiveNavigationScaffold` only if that package was chosen. |
+| `list-detail` | At expanded `Row(list, VerticalDivider, Expanded(detail))`; below it the existing push. The selected id lives above both (state or router), so folding pushes the open item and unfolding shows it in the pane; with go_router, one route that renders either form. `FoldTwoPane` / `FoldSplit` only if that package was chosen. |
+| `cards-feed` | `SliverGridDelegateWithFixedCrossAxisCount` with `crossAxisCount` 1 / 2 / 3 by width class and a fixed `childAspectRatio`; or `MaxCrossAxisExtent` sized so compact stays one column |
+| `long-form` | `Center` + `ConstrainedBox(constraints: BoxConstraints(maxWidth:))` around the text; at expanded a `Row` with a TOC panel |
+| `bottom-sheet` | From medium: `showDialog` with a width-capped `Dialog`, or `MenuAnchor` / `showMenu` anchored to the trigger for short choices. `showModalBottomSheet(constraints:)` is the baseline. With a `displayFeatures` bridge on, mind `anchorPoint` (symptom table). |
+| `primary-cta` | Below medium the existing footer button; from medium `Align(alignment: AlignmentDirectional.bottomEnd)` + `SizedBox(width:)`, or the button moved to the end of the content column; `FloatingActionButton.extended` at `endFloat` also fits |
+| `form` | Label/field `Row` (fixed label width, `Expanded` field) from medium; two `Column`s of grouped `Card`s at expanded, each in a `FocusTraversalGroup` so Next stays in its column |
+| `media` | `Flex(direction: wide ? Axis.horizontal : Axis.vertical)` keeps the player's element (swapping `Row` ↔ `Column` would recreate it); a `GlobalKey` if the player moves between parents |
+| `canvas-tools` | `Row(children: [Expanded(canvas), SizedBox(width:, child: inspector)])` at expanded; `endDrawer` or bottom sheet below |
+| `flex-mode` | Needs a fold package (`foldable`, `fold_kit`, `unfold`) — `displayFeatures` is empty on iOS; split on the fold bounds it reports, never a hard-coded position |
 
 ## Toolchain rules (go in the plan when present)
 - Build with **Xcode 27.1 / iOS 27.1 SDK**; the SDK, not a plist key, decides the window.

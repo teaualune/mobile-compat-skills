@@ -32,7 +32,7 @@ A fix is **specific**: one externally caused problem with a known cure, not gene
 
 Modelled on `iphone-duo-ui-fix`; follow them unless a fix has a reason not to.
 
-- **Gated workflow**: toolchain + stack detection first; evidence (screenshots, logs) triaged and mapped to code; fix proposals built on the mechanisms the repo already has; a plan that waits for explicit approval before any source edit; implementation; validation by the caller or by Claude; optional review by fresh subagents.
+- **Gated workflow**: toolchain + stack detection first; evidence (screenshots, logs — or the code itself where there is none) triaged and mapped to code; fix proposals built on the mechanisms the repo already has; a plan that waits for explicit approval before any source edit; implementation; validation by the caller or by Claude; optional review by fresh subagents.
 - **Never touches git** — no branches, staging or commits; branch/dirty state is only reported. The skill writes nothing of its own into the target repo beyond the approved changes.
 - **Facts in one reference**: device numbers, versions and API names live in a single facts file read once per run; SKILL.md forbids quoting them from memory.
 - **Dated baseline + staleness check**: a dated survey of tooling/versions in `references/`, mirrored by constants in the detection script, which prints `survey=current|stale`. A refresh updates the survey file and the script constants together.
@@ -52,3 +52,5 @@ Modelled on `iphone-duo-ui-fix`; follow them unless a fix has a reason not to.
 - `references/baseline-survey.md` ↔ the survey block of `scripts/detect_stack.sh` (`BASELINE_DATE`, `BASELINE_XCODE_LINES`, `BASELINE_FLUTTER_LINES`, `BASELINE_KNOWN_PKGS`) and its `FOLD_PKGS` list — update together.
 - Display sizes in `references/duo-device-facts.md` ↔ the expected sizes in `scripts/inventory_screenshots.py` ↔ SKILL.md Phase 2 step 1.
 - Screenshot folder names (`outer/`, `inner/` with alias `inner_landscape/`, `inner_portrait/`) are shared by SKILL.md, `duo-device-facts.md`, `validation-on-device.md`, `inventory_screenshots.py`, `capture_duo_screens.sh`, `assets/screenshot-manifest-template.yaml` and `assets/validation-checklist.md` — a rename touches all of them.
+- Manifest fields (`screen`, `hint`, `like`; a key without an image extension = a screen with no screenshot) are shared by SKILL.md Phase 2, `inventory_screenshots.py` and `assets/screenshot-manifest-template.yaml`.
+- Layout pattern ids (`global-nav`, `list-detail`, `cards-feed`, `long-form`, `bottom-sheet`, `primary-cta`, `form`, `media`, `canvas-tools`, `flex-mode`) are shared by `references/layout-patterns.md`, the "Layout patterns → mechanism" tables in both playbooks, and `PATTERN_ORDER` / `RULES` / `PATTERNS` in `scripts/scan_layout_code.py`.

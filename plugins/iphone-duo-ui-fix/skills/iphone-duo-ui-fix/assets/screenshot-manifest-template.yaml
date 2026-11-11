@@ -3,8 +3,11 @@
 # Folders: outer/ (closed), inner/ (opened = inner landscape), inner_portrait/ (opened and rotated).
 #   screen: the code that renders this page (file path, type name, route, or deep link)
 #   hint:   how the caller wants it fixed. Leave blank to have the skill propose a fix.
+#   like:   (screens without a screenshot) a screen this one is built like
 #
-# A sidecar file next to a screenshot works too: inner/home.md with free-text notes.
+# A key that is not an image path is a screen with no screenshot — list every screen
+# you want fixed, screenshot or not. A sidecar file next to a screenshot works too:
+# inner/home.md with free-text notes.
 
 inner/home.png:
   screen: lib/pages/home_page.dart   # or Sources/Home/HomeView.swift, or route "/home"
@@ -20,3 +23,9 @@ outer/checkout.png:
 
 inner_portrait/player.png:
   screen: PlayerView
+
+order-history:                      # no screenshot
+  screen: lib/pages/order_history_page.dart
+  like: inner/home.png              # same card grid and header as home
+
+profile:                            # no screenshot, nothing known — the skill finds the code

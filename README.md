@@ -6,7 +6,7 @@ A Claude Code plugin **marketplace** of targeted fixes for existing mobile apps.
 
 | Plugin | Fixes | Stacks |
 |---|---|---|
-| `iphone-duo-ui-fix` | UI/layout on iPhone Duo's inner and outer displays, driven by screenshots of broken screens | Swift (SwiftUI/UIKit), Flutter |
+| `iphone-duo-ui-fix` | UI/layout on iPhone Duo's inner and outer displays, from screenshots of broken screens or from code when a screen has none | Swift (SwiftUI/UIKit), Flutter |
 
 ## Installation
 
@@ -29,7 +29,7 @@ Without the plugin system, copy a skill folder (`plugins/<plugin>/skills/<skill>
 
 ## How a fix works
 
-Every fix follows the same gated shape: check the toolchain and detect the stack → triage the evidence (screenshots, logs) → propose fixes built on what the repo already has → write a plan and wait for approval → implement → validate → optional review. Fixes never create branches, stage or commit; that stays with you.
+Every fix follows the same gated shape: check the toolchain and detect the stack → triage the evidence (screenshots, logs — or the code itself when there is none) → propose fixes built on what the repo already has → write a plan and wait for approval → implement → validate → optional review. Fixes never create branches, stage or commit; that stays with you.
 
 Fix knowledge goes stale as platforms move. Each fix ships a dated baseline survey and checks the project against it; when the baseline is stale, it runs a fresh survey before planning.
 

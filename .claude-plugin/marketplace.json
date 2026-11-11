@@ -11,7 +11,7 @@
     {
       "name": "iphone-duo-ui-fix",
       "source": "./plugins/iphone-duo-ui-fix",
-      "description": "Fix an existing iOS (SwiftUI/UIKit) or Flutter app's UI for iPhone Duo's inner and outer displays, driven by screenshots of broken screens."
+      "description": "Fix an existing iOS (SwiftUI/UIKit) or Flutter app's UI for iPhone Duo's inner and outer displays, from screenshots of broken screens or from code when a screen has none."
     }
   ]
 }
