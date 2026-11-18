@@ -25,7 +25,7 @@ To try a local checkout without installing anything:
 cd /path/to/your-app && claude --plugin-dir /path/to/mobile-compat-skills/plugins/iphone-duo-ui-fix
 ```
 
-Without the plugin system, copy a skill folder (`plugins/<plugin>/skills/<skill>/`) into a project's `.claude/skills/` or into `~/.claude/skills/`.
+Without the plugin system, copy a skill folder (`plugins/<plugin>/skills/<skill>/`) into a project's `.claude/skills/` or into `~/.claude/skills/`, together with its plugin's `LICENSE` and `DISCLAIMERS.md` (in `plugins/<plugin>/`), which the copy must keep.
 
 ## How a fix works
 
@@ -35,4 +35,4 @@ Fix knowledge goes stale as platforms move. Each fix ships a dated baseline surv
 
 ## License
 
-[WTFPL](LICENSE)
+[MIT](LICENSE). Each plugin folder carries a copy of `LICENSE` and its own `DISCLAIMERS.md` with trademark and third-party notices.
