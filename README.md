@@ -8,6 +8,8 @@ A Claude Code plugin **marketplace** of targeted fixes for existing mobile apps.
 |---|---|---|
 | `iphone-duo-ui-fix` | UI/layout on iPhone Duo's inner and outer displays, from screenshots of broken screens or from code when a screen has none | Swift (SwiftUI/UIKit), Flutter |
 
+For spec-driven feature work, builds and store uploads, see the `mobile-dev-skills` plugin at [teaualune/flutter-feature-skills](https://github.com/teaualune/flutter-feature-skills).
+
 ## Installation
 
 Prerequisite: [Claude Code](https://claude.com/claude-code) installed and working.

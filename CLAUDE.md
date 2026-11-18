@@ -45,7 +45,7 @@ Modelled on `iphone-duo-ui-fix`; follow them unless a fix has a reason not to.
 - **Self-contained**: an installed plugin is copied to the plugin cache on its own, so nothing may reference files outside its plugin folder (no `../`). Shared scripts are duplicated per plugin.
 - **Bump `version` in the plugin's `plugin.json` on every change**, baseline refreshes included — installed users don't receive changes otherwise. The version lives in `plugin.json` only, not in the marketplace entry.
 - **Adding a fix**: create `plugins/<fix>/` with `.claude-plugin/plugin.json` and `skills/<fix>/`, add an entry to `marketplace.json`, add a row to README's plugin table.
-- **Don't rename** the marketplace (`mobile-compat`) or a published plugin: installs reference `<plugin>@mobile-compat`.
+- **Don't rename** the marketplace (`mobile-compat`) or a published plugin: installs reference `<plugin>@mobile-compat`. The `mobile-dev-skills` plugin's README (repo `teaualune/flutter-feature-skills`) also lists `iphone-duo-ui-fix` under "Related plugins", so a rename changes that README too.
 - **License**: MIT. Each plugin folder carries a byte-identical copy of the root `LICENSE` and its own `DISCLAIMERS.md`, since an install copies only the plugin folder; a new plugin gets both.
 
 ## Cross-file contracts — `iphone-duo-ui-fix`
